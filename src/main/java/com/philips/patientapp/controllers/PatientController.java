@@ -1,8 +1,9 @@
 package com.philips.patientapp.controllers;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,30 +17,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.philips.patientapp.custom.exception.PatientNotFoundException;
+import com.philips.patientapp.model.Identifier;
+import com.philips.patientapp.model.Meta;
+import com.philips.patientapp.model.Name;
 import com.philips.patientapp.model.Patient;
+import com.philips.patientapp.model.PatientFHIR;
+import com.philips.patientapp.service.PatientProfileValidatorService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/patients")
 @Api(value="patient app", description="Operations pertaining to Patient App")
 public class PatientController {
 	
-	/*
-	 * @Autowired private PatientService patientService;
-	 */
+	@Autowired
+	private PatientProfileValidatorService patientProfileValidatorService;
 	
 	private static Map<Integer, Patient> patientRepo = new HashMap<>();
 	   static {
-		  Patient p1 = new Patient(1, "Nikunj", "Male", null);
+		  Patient p1 = new Patient(1, "Nikunj", "Soni", "Male", new Date(), null); 
 	      patientRepo.put(p1.getId(), p1);
 	      
-	      Patient p2 = new Patient(2, "Geeta", "Female", null);
+	      Patient p2 = new Patient(2, "Geeta", "Patel", "Female", new Date(), null); 
 	      patientRepo.put(p2.getId(), p2);
-	   }
+	}
 
 	@GetMapping("/")
 	 public String welcomeToApp() {
@@ -65,16 +73,44 @@ public class PatientController {
 	
 	@ApiOperation(value = "Search a patient with an ID",response = Patient.class)
     @RequestMapping(value = "/{id}", method= RequestMethod.GET, produces = "application/json")
-    public Patient showProduct(@PathVariable Integer id, Model model){
+    public Patient searchPatientbyId(@PathVariable Integer id, Model model){
 		Patient patient  = patientRepo.get(id);
+		if (patient == null)
+		      throw new PatientNotFoundException("id-" + id);
         return patient;
     }
 	
 	@ApiOperation(value = "Add a patient")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Object> createProduct(@RequestBody Patient patient) {
-		patientRepo.put(patient.getId(), patient);
-	    return new ResponseEntity<>("Patient is created successfully", HttpStatus.CREATED);
+	public ResponseEntity<Object> createPatient(@RequestBody Patient patient) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			PatientFHIR fhirPatient = PatientFHIR.builder()
+					.resourceType("Patient")
+					.id(String.valueOf(patient.getId()))
+					.meta(new Meta())
+					.name(Arrays.asList(new Name(patient.getFamily(), Arrays.asList(patient.getName()))))
+					.gender(patient.getGender())
+					.identifier(Arrays.asList(new Identifier("https://example.org/fhir", "apppatient")))
+					.birthDate(sdf.parse(sdf.format(patient.getDateOfBirth())))
+					.build();
+		
+		    // convert book object to JSON
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		    String patientJson = gson.toJson(fhirPatient);
+		    // print JSON string
+		    System.out.println(patientJson);
+		    if (patientProfileValidatorService.validateProfile(patientJson)) {
+			    patientRepo.put(patient.getId(), patient);
+			    return new ResponseEntity<>("Patient is created successfully", HttpStatus.CREATED);
+		    } else {
+		    	return new ResponseEntity<>("Resource does not meet the AppPatient profile constrains", HttpStatus.PRECONDITION_FAILED);
+		    }
+		} catch (Exception ex) {
+		    ex.printStackTrace();
+		    return new ResponseEntity<>("Patient is not created successfully", HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
 	@ApiOperation(value = "Delete a patient")
