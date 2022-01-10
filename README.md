@@ -1,4 +1,4 @@
-Introduction
+Introduction to Patient App
 
 
 Swagger UI URL
