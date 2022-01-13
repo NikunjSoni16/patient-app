@@ -1,0 +1,28 @@
+{
+  "resourceType": "Patient",
+  "id": "123",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">This is a Patient Resources</div>"
+  },
+  "meta": {
+    "profile": [
+        "https://example.org/fhir/StructureDefinition/AppPatient"
+    ]
+  },
+  "name": [ 
+      {
+        "family": "patadiay",
+        "given": [ "Jash" ]
+    } 
+  ],
+  "gender": "male",
+  "identifier": [
+      {
+        "system": "https://example.org/fhir",
+        "value": "apppatient"
+      }
+  ],
+  "birthDate": "2002-06-16"
+  
+}

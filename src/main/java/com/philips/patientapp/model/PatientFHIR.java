@@ -14,6 +14,7 @@ public class PatientFHIR {
 
 	private String resourceType;
 	private String id;
+	private Text text;
 	private Meta meta;
 	private List<Name> name;
 	private String gender;

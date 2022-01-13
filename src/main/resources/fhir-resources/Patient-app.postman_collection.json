@@ -1,0 +1,252 @@
+{
+	"info": {
+		"_postman_id": "43c1d233-8ef0-42fe-8a43-98b95f287b76",
+		"name": "Patient-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication to generate jwt token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"foo\",\r\n    \"password\": \"foo\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/authenticate",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Patient List",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE2NDEyODM4MzIsImlhdCI6MTY0MTE5NzQzMn0.gP7Dp7_QN2UeoaG2SPBdY2tQtkLA8PZnypgA_qPWXIM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8081/patients",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"patients"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Patient",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/patients/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"patients",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Patient",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE2NDE2NTUwMzcsImlhdCI6MTY0MTU2ODYzN30.WTbqlPZeZEOv93ROndtP2eIAuxMSAXvLU-RfDJ1RcWw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": 5,\r\n        \"name\": \"Jay\",\r\n        \"family\": \"Soni\",\r\n        \"gender\": \"male\",\r\n        \"dateOfBirth\": \"2002-06-16\",\r\n        \"encounters\": null\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8081/patients",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"patients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Patient",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE2NDAwNjk0NzIsImlhdCI6MTYzOTk4MzA3Mn0.vYsZslFYf3NnTirRqVOu_D3Cx0kM2cKZZ5_7pEAvp8U",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/patients/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"patients",
+						"3"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post StructureDefinition HAPI Server",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"StructureDefinition\",\r\n  \"text\": {\r\n    \"status\": \"generated\",\r\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">This is Patient Resource</div>\"\r\n  },\r\n  \"url\": \"https://example.org/fhir/StructureDefinition/AppPatient\",\r\n  \"name\": \"AppPatient\",\r\n  \"status\": \"draft\",\r\n  \"fhirVersion\": \"4.0.1\",\r\n  \"kind\": \"resource\",\r\n  \"abstract\": false,\r\n  \"type\": \"Patient\",\r\n  \"baseDefinition\": \"http://hl7.org/fhir/StructureDefinition/Patient\",\r\n  \"derivation\": \"constraint\",\r\n  \"differential\": {\r\n    \"element\": [\r\n      {\r\n        \"id\": \"Patient.identifier\",\r\n        \"path\": \"Patient.identifier\",\r\n        \"min\": 1\r\n      },\r\n      {\r\n        \"id\": \"Patient.name\",\r\n        \"path\": \"Patient.name\",\r\n        \"min\": 1,\r\n        \"max\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"Patient.gender\",\r\n        \"path\": \"Patient.gender\",\r\n        \"min\": 1\r\n      },\r\n      {\r\n        \"id\": \"Patient.birthDate\",\r\n        \"path\": \"Patient.birthDate\",\r\n        \"min\": 1,\r\n        \"minValueDate\": \"1988-01-16\"\r\n      }\r\n    ]\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/fhir/StructureDefinition",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"fhir",
+						"StructureDefinition"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Patient Resourse against our profile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"resourceType\": \"Patient\",\r\n  \"id\": \"123\",\r\n  \"meta\": {\r\n    \"profile\": [\r\n        \"https://example.org/fhir/StructureDefinition/AppPatient\"\r\n    ]\r\n  },\r\n  \"name\": [ \r\n      {\r\n        \"family\": \"patadiay\",  \r\n        \"given\": [\"Jash\"]\r\n\r\n    } \r\n  ],\r\n  \"gender\": \"male\",\r\n  \"identifier\": [\r\n      {\r\n        \"system\": \"https://example.org/fhir\",\r\n        \"value\": \"apppatient\"\r\n      }\r\n  ],\r\n  \"birthDate\": \"2002-06-16\"\r\n  \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/fhir/Patient/$validate?profile=https://example.org/fhir/StructureDefinition/AppPatient",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"fhir",
+						"Patient",
+						"$validate"
+					],
+					"query": [
+						{
+							"key": "profile",
+							"value": "https://example.org/fhir/StructureDefinition/AppPatient"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StructureDefinition List of JPA Server",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/fhir+json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/fhir/StructureDefinition/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"fhir",
+						"StructureDefinition",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

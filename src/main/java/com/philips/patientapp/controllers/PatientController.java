@@ -25,6 +25,7 @@ import com.philips.patientapp.model.Meta;
 import com.philips.patientapp.model.Name;
 import com.philips.patientapp.model.Patient;
 import com.philips.patientapp.model.PatientFHIR;
+import com.philips.patientapp.model.Text;
 import com.philips.patientapp.service.PatientProfileValidatorService;
 
 import io.swagger.annotations.Api;
@@ -88,6 +89,7 @@ public class PatientController {
 			PatientFHIR fhirPatient = PatientFHIR.builder()
 					.resourceType("Patient")
 					.id(String.valueOf(patient.getId()))
+					.text(new Text("generated", "<div xmlns=\"http://www.w3.org/1999/xhtml\">This is a Patient Resources</div>")) 
 					.meta(new Meta())
 					.name(Arrays.asList(new Name(patient.getFamily(), Arrays.asList(patient.getName()))))
 					.gender(patient.getGender())
