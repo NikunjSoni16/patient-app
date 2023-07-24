@@ -1,0 +1,43 @@
+<DicomStandard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" About="© Koninklijke Philips N.V. 2019" GenerationDateTime="2019-03-27T14:03:06.8394251+05:30" ModelVersion="19.1.0.0" PublicationVersion="2019a">
+  <Part03>
+    <CompositeIodRegistry>
+      <CompositeIod Id="PS3.3:table_A.8-1" Name="SC Image IOD Modules" ParentId="PS3.3:sect_A.8.1">
+        <IeCollection>
+          <IodIeEntry Name="Patient">
+            <ModuleCollection>
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.7.1.1" Name="Patient" Usage="M" />
+            </ModuleCollection>
+          </IodIeEntry>
+          <IodIeEntry Name="Study">
+            <ModuleCollection>
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.7.2.1" Name="General Study" Usage="M" />
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.7.2.2" Name="Patient Study" Usage="M" />
+            </ModuleCollection>
+          </IodIeEntry>
+          <IodIeEntry Name="Series">
+            <ModuleCollection>
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.7.3.1" Name="General Series" Usage="M" />
+            </ModuleCollection>
+          </IodIeEntry>
+          <IodIeEntry Name="Equipment">
+            <ModuleCollection>
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.7.5.1" Name="General Equipment" Usage="M" />
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.8.6.1" Name="SC Equipment" Usage="M" />
+            </ModuleCollection>
+          </IodIeEntry>
+          <IodIeEntry Name="Image">
+            <ModuleCollection>
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.7.6.1" Name="General Image" Usage="M" />
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.12.4" Name="General Reference" Usage="U" />
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.7.6.3" Name="Image Pixel" Usage="M" />
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.8.6.2" Name="SC Image" Usage="M" />
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.11.2" Name="VOI LUT" Usage="M" />
+              <IodModuleEntry ModuleReference="PS3.3:sect_C.12.1" Name="SOP Common" Usage="M" />
+            </ModuleCollection>
+          </IodIeEntry>
+        </IeCollection>
+      </CompositeIod>
+    </CompositeIodRegistry>
+    <FunctionalGroupMacroRegistry />
+  </Part03>
+</DicomStandard>
